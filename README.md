@@ -1,251 +1,88 @@
-# 👋 Sistema de Logs Multi Base de Datos
+# Logmon: Sistema de Logs Multi Base de Datos
 
-🚀 **Registra • Almacena • Visualiza • Administra**
+Logmon es una plataforma de monitoreo diseñada para registrar, almacenar y centralizar eventos (logs) de múltiples aplicaciones, con la capacidad de cambiar dinámicamente el motor de almacenamiento en tiempo real sin interrupción del servicio ni pérdida de datos.
 
-Sistema de monitoreo de logs utilizando múltiples motores de bases de datos.
+El proyecto utiliza una arquitectura desacoplada: un backend en **FastAPI** que gestiona el enrutamiento y las conexiones, y un frontend en **React** para la administración y visualización del historial.
 
-</div>
+## Características
+* **Almacenamiento Dinámico:** Cambio de motor de base de datos en caliente mediante un sistema de Adapters.
+* **Compatibilidad Multi-Motor:** Soporte integrado para MariaDB, PostgreSQL, SQL Server, MongoDB y Redis.
+* **Gestión de Fuentes:** API REST y Dashboard para dar de alta aplicaciones externas y probar conexiones.
+* **Persistencia de Metadata:** Centralización de configuraciones e historial de cambios en SQLite.
+* **Consultas Avanzadas:** Filtrado y auditoría global de logs desde una interfaz unificada.
 
-## Descripción
+## Arquitectura y Stack Tecnológico
 
-El **Sistema de Logs Multi Base de Datos** es una aplicación desarrollada para registrar, almacenar y visualizar eventos (logs) provenientes de diferentes aplicaciones o servicios utilizando múltiples motores de bases de datos.
-
-La principal característica del sistema es la capacidad de cambiar dinámicamente el motor de almacenamiento sin interrumpir el servicio ni perder información. Esto permite evaluar diferentes tecnologías de bases de datos bajo una misma plataforma y centralizar la administración de los registros generados por distintas aplicaciones.
-
-El proyecto implementa una arquitectura basada en servicios, donde un backend desarrollado con FastAPI administra las conexiones, el almacenamiento y la consulta de los registros, mientras que un frontend desarrollado con React permite la administración y visualización de la información.
-
----
-
-# Objetivo General
-
-Desarrollar una plataforma capaz de registrar, almacenar y visualizar registros (logs) utilizando diferentes motores de bases de datos, permitiendo cambiar el destino de almacenamiento en tiempo real sin afectar la disponibilidad ni la integridad de la información.
-
----
-
-# Objetivos Específicos
-
-- Registrar eventos generados por diferentes aplicaciones.
-- Almacenar registros utilizando distintos motores de bases de datos.
-- Permitir el cambio dinámico del motor de almacenamiento.
-- Visualizar los registros desde una única interfaz.
-- Mantener la integridad de la información durante los cambios de conexión.
-- Facilitar la administración de conexiones y fuentes de datos.
-
----
-
-# Características principales
-
-- Registro de logs en tiempo real.
-- Compatibilidad con múltiples motores de bases de datos.
-- Cambio de base de datos sin pérdida de información.
-- API REST para la administración del sistema.
-- Dashboard para visualizar registros.
-- Gestión de conexiones.
-- Gestión de fuentes de datos.
-- Historial de cambios de conexión.
-- Consultas filtradas por diferentes criterios.
-- Pruebas automáticas del sistema.
-
----
-
-# Arquitectura del Proyecto
-
-El sistema está compuesto por tres componentes principales:
-
-- Frontend desarrollado en React + Vite.
-- Backend desarrollado con FastAPI.
-- Motores de bases de datos conectados mediante Docker Compose.
-
-El backend actúa como intermediario entre las aplicaciones que generan los logs y el motor de almacenamiento seleccionado.
-
-La metadata del sistema se almacena en SQLite, mientras que los registros pueden almacenarse en diferentes motores según la configuración activa.
-
----
-
-# Motores de Base de Datos Soportados
-
-Actualmente el sistema soporta:
-
-- MariaDB
-- PostgreSQL
-- Microsoft SQL Server
-- MongoDB
-- Redis
-- SQLite (metadata)
-
----
-
-# Tecnologías Utilizadas
-
-## Backend
-
-- Python 3.12
-- FastAPI
-- Uvicorn
-- SQLAlchemy (si aplica)
-- Pydantic
-
-## Frontend
-
-- React
-- TypeScript
-- Vite
-
-## Bases de Datos
-
-- MariaDB
-- PostgreSQL
-- SQL Server
-- MongoDB
-- Redis
-- SQLite
-
-## Infraestructura
-
-- Docker
-- Docker Compose
-
----
-
-# Requisitos
-
-Para ejecutar el proyecto se requiere:
-
-- Docker Desktop
-- Docker Compose
-- Python 3.12 (para desarrollo)
-- Git
-
----
-
-# Instalación
-
-## 1. Clonar el repositorio
-
-```bash
-git clone URL_DEL_REPOSITORIO
-```
-
-## 2. Entrar al proyecto
-
-```bash
-cd logmon
-```
-
-## 3. Configurar las variables de entorno
-
-Copiar el archivo
-
-```text
-.env.example
-```
-
-como
-
-```text
-.env
-```
-
-y configurar las credenciales correspondientes.
-
-## 4. Levantar los servicios
-
-```bash
-docker compose up -d
-```
-
-## 5. Ejecutar datos de prueba
-
-```bash
-make seed
-```
-
----
-
-# Uso del Sistema
-
-Una vez iniciado el proyecto se podrá:
-
-- Registrar nuevas conexiones.
-- Asociar aplicaciones con una conexión.
-- Cambiar el motor de almacenamiento.
-- Registrar eventos.
-- Consultar registros históricos.
-- Visualizar el detalle de cada log.
-
----
-
-# Flujo General
-
-1. Una aplicación genera un evento.
-2. El backend recibe la solicitud.
-3. El Router determina el motor correspondiente.
-4. El Adapter guarda el registro.
-5. El usuario consulta los registros desde la interfaz web.
-
----
-
-# Estructura del Proyecto
+* **Backend:** Python 3.12, FastAPI, Uvicorn, SQLAlchemy, Pydantic.
+* **Frontend:** React, TypeScript, Vite.
+* **Infraestructura:** Docker y Docker Compose para el despliegue local de los motores.
 
 ```text
 logmon/
-
-├── backend/
-├── frontend/
-├── docker-compose.yml
-├── README.md
-├── Makefile
-└── .env.example
+├── backend/          # API REST y lógica de persistencia
+├── frontend/         # Dashboard de administración
+├── docker-compose.yml # Contenedores de bases de datos
+├── Makefile          # Atajos de comandos (seed, tests)
+└── .env.example      # Plantilla de configuración
 ```
 
----
+## Requisitos Previos
+* Docker Desktop / Docker Compose
+* Python 3.12 (opcional para desarrollo local)
+* Git
 
-# API
+## Instalación y Despliegue
 
-## Endpoints principales
+1. Clonar el repositorio y acceder al directorio:
+   ```bash
+   git clone URL_DEL_REPOSITORIO
+   cd logmon
+   ```
+
+2. Configurar el entorno:
+   ```bash
+   cp .env.example .env
+   ```
+   *(Ajustar las credenciales en el archivo `.env` si es necesario).*
+
+3. Levantar la infraestructura en segundo plano:
+   ```bash
+   docker compose up -d
+   ```
+
+4. Generar registros de prueba iniciales:
+   ```bash
+   make seed
+   ```
+
+## Flujo de Trabajo e Integración
+
+1. Una aplicación cliente envía un evento a la API.
+2. El Router del backend intercepta la solicitud y valida la fuente de origen.
+3. El Adapter activo procesa y escribe el registro en el motor seleccionado.
+4. Los cambios de motor se reflejan inmediatamente en el Dashboard sin requerir reinicios.
+
+## Endpoints Principales (API)
 
 | Método | Endpoint | Descripción |
-|---------|----------|-------------|
-| POST | /api/logs | Registrar log |
-| GET | /api/logs | Consultar logs |
-| GET | /api/logs/{id} | Obtener detalle |
-| POST | /api/logs/demo | Crear datos de prueba |
-| POST | /api/sources/{id}/switch | Cambiar motor |
-| POST | /api/connections/{id}/test | Probar conexión |
+| :--- | :--- | :--- |
+| `POST` | `/api/logs` | Registrar un nuevo evento de log |
+| `GET` | `/api/logs` | Listado y filtrado de logs históricos |
+| `GET` | `/api/logs/{id}` | Obtener el detalle específico de un log |
+| `POST` | `/api/sources/{id}/switch` | Cambiar el motor de almacenamiento asignado |
+| `POST` | `/api/connections/{id}/test` | Validar estado y ping de una base de datos |
+| `POST` | `/api/logs/demo` | Ingesta masiva de datos dummy para pruebas |
 
-# Ejemplo de Funcionamiento
+## Pruebas de Sistema
+El repositorio incluye una suite de pruebas automatizadas enfocadas en validar:
+* El comportamiento individual de cada Adapter de base de datos.
+* La consistencia de datos durante operaciones de conmutación de motor (*failover/switch*).
+* Resistencia a escrituras concurrentes de alta carga.
 
-1. Crear una conexión.
-2. Asociar una aplicación.
-3. Registrar varios logs.
-4. Cambiar el motor de almacenamiento.
-5. Registrar nuevos logs.
-6. Verificar que todos los registros continúan disponibles.
+## Licencia
+Este proyecto se distribuye bajo la **Licencia MIT**. Consulta el archivo `LICENSE` para ver los términos completos.
 
----
-
-# Pruebas
-
-El proyecto contempla pruebas para verificar:
-
-- Funcionamiento de cada Adapter.
-- Cambio de motor sin pérdida de información.
-- Escrituras concurrentes.
-- Consultas entre múltiples bases de datos.
-
-# Licencia
-
-Este proyecto se distribuye bajo la **Licencia MIT**, lo que permite a cualquier persona utilizar, copiar, modificar, fusionar, publicar, distribuir, sublicenciar y/o vender copias del software, siempre que se incluya el aviso de copyright y la licencia original.
-
-Para más información, consulte el archivo **LICENSE** incluido en este repositorio.
-
-**Copyright (c) 2026 Federico Gis**
-
----
-
-# Agradecimientos
-
-Este proyecto fue desarrollado como parte del curso correspondiente, con el objetivo de implementar una solución de monitoreo de registros utilizando múltiples motores de bases de datos y demostrar la flexibilidad de una arquitectura desacoplada para el almacenamiento y consulta de información.
+Copyright (c) 2026 Federico Gis
 
 
 
